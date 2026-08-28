@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Menu | Flame-Grilled Perfection</title>
+  <meta name="description" content="View our gourmet food menu, craft drinks, and daily specials. Scan to order or call directly from your table.">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <!-- QRCode.js Library (Local or CDN fallback) -->
+  <script src="js/qrcode.min.js"></script>
+</head>
+<body>
+
+  <!-- Top Announcement Notice -->
+  <div class="top-notice-bar" id="res-notice">
+    ⚡ <span>Scan table QR code for instant menu & direct ordering</span>
+  </div>
+
+  <div class="container">
+    
+    <!-- Hero Header -->
+    <header class="hero-header">
+      <div class="hero-brand">
+        <div class="hero-logo-icon">🔥</div>
+        <div>
+          <h1 id="res-name" class="hero-title">BURGER & BITE</h1>
+          <p id="res-tagline" class="hero-tagline">Flame-Grilled Perfection & Craft Shakes</p>
+        </div>
+      </div>
+
+      <div class="hero-meta">
+        <div class="meta-item">
+          <span class="meta-icon">📍</span>
+          <span id="res-address">42 Street Food Avenue, Downtown</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-icon">⏰</span>
+          <span id="res-hours">Mon-Sun: 11:00 AM - 11:00 PM</span>
+        </div>
+      </div>
+
+      <div class="hero-actions">
+        <a id="btn-call" href="#" class="btn btn-primary">
+          <span>📞</span> Call Table Staff
+        </a>
+        <a id="btn-whatsapp" href="#" target="_blank" class="btn btn-outline">
+          <span>💬</span> WhatsApp Order
+        </a>
+      </div>
+    </header>
+
+    <!-- Sticky Navigation & Search Bar -->
+    <div class="sticky-filter-wrapper">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" placeholder="Search menu items (e.g. Smash, Truffle, Shake)..." aria-label="Search menu items">
+        <button id="clear-search" class="clear-btn" style="display: none;">✕</button>
+      </div>
+
+      <nav class="categories-nav" id="category-pills" aria-label="Menu categories">
+        <!-- Dynamically rendered pills -->
+      </nav>
+    </div>
+
+    <!-- Main Menu List -->
+    <main class="menu-section">
+      <div class="section-title-wrap">
+        <h2 id="current-category-title" class="section-title">All Items</h2>
+        <span id="item-count-badge" class="count-badge">8 Items</span>
+      </div>
+
+      <div class="menu-grid" id="menu-grid">
+        <!-- Dynamically rendered menu item cards -->
+      </div>
+      
+      <!-- Empty state if search returns zero results -->
+      <div id="no-results" class="empty-state" style="display: none;">
+        <div class="empty-icon">🍽️</div>
+        <h3>No menu items found</h3>
+        <p>Try searching for a different keyword or select another category.</p>
+      </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+      <p>© 2026 <span id="footer-res-name">BURGER & BITE</span>. All Rights Reserved.</p>
+      <div class="footer-tools">
+        <button id="open-qr-modal" class="btn btn-outline btn-sm">
+          🖨️ Owner Studio: Print QR Code Cards
+        </button>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- QR Code & Printable Table Tent Studio Modal -->
+  <div class="modal-overlay" id="qr-modal" style="display: none;">
+    <div class="modal-card">
+      <button class="modal-close" id="close-qr-modal">✕</button>
+      
+      <div class="modal-header">
+        <div class="modal-icon">🖨️</div>
+        <div>
+          <h3>QR Code & Table Tent Studio</h3>
+          <p>Generate high-res QR codes and printable table stands at 0 cost.</p>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="qr-url-input">Your Published Menu Web URL:</label>
+          <input type="url" id="qr-url-input" placeholder="https://yourname.github.io/menu" value="https://burger-bite.github.io/menu">
+          <small>Paste the live link customers visit when scanning.</small>
+        </div>
+
+        <div class="qr-preview-area">
+          <div id="qr-canvas-container" class="qr-box">
+            <!-- QR code generated here -->
+          </div>
+          <div class="qr-instructions">
+            <span class="badge badge-chef">Ready To Print</span>
+            <h4>Printable Table Stand Layout</h4>
+            <p>Click below to open print preview with a pre-designed 2-sided table card layout.</p>
+          </div>
+        </div>
+
+        <!-- Table Tent Print Preview Container (Hidden on web screen, active on @media print) -->
+        <div id="print-tent-template" class="print-only-tent">
+          <div class="tent-side side-a">
+            <div class="tent-header">
+              <span class="tent-icon">🔥</span>
+              <h2 class="tent-res-name">BURGER & BITE</h2>
+              <p class="tent-tagline">Scan to View Digital Menu & Order</p>
+            </div>
+            <div class="tent-qr-box" id="tent-qr-a"></div>
+            <p class="tent-table-text">Table #______</p>
+            <p class="tent-footer">Thank you for dining with us!</p>
+          </div>
+          
+          <div class="tent-fold-line">
+            <span>✂️ FOLD HERE FOR TABLE STAND TENT CARD ✂️</span>
+          </div>
+
+          <div class="tent-side side-b">
+            <div class="tent-header">
+              <span class="tent-icon">🔥</span>
+              <h2 class="tent-res-name">BURGER & BITE</h2>
+              <p class="tent-tagline">Scan to View Digital Menu & Order</p>
+            </div>
+            <div class="tent-qr-box" id="tent-qr-b"></div>
+            <p class="tent-table-text">Table #______</p>
+            <p class="tent-footer">Thank you for dining with us!</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="btn-generate-qr" class="btn btn-outline">Update QR</button>
+        <button id="btn-print-tent" class="btn btn-primary">🖨️ Print Table Tent Cards</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Scripts -->
+  <script src="js/menu-data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
