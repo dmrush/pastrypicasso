@@ -1,250 +1,115 @@
-# Zero-Budget QR Code Menu Landing Page & Print Studio Implementation Plan
+# Single-File QR Restaurant Menu Landing Page Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build a zero-budget, high-performance, vibrant digital restaurant menu landing page with an integrated QR code generator and printable table tent studio.
+**Goal:** Build a zero-dependency, ultra-lightweight (<50KB), single-file `index.html` restaurant menu landing page with inlined CSS, JS, dynamic data rendering, real-time search, sticky category pills, and self-generated QR code export.
 
-**Architecture:** Single-page web application using modern HTML5, vanilla CSS (vibrant dark glassmorphism design tokens), and modular vanilla JS with client-side QR generation via QRCode.js.
+**Architecture:** A single self-contained `index.html` file containing HTML structure, custom CSS design system, plain JS data objects, DOM rendering/filtering engine, scroll observer, and Canvas-based QR code download generator.
 
-**Tech Stack:** HTML5, CSS3 (Flexbox/Grid/Glassmorphism/@media print), JavaScript (ES6 Modules/Vanilla), QRCode.js (CDN/local).
+**Tech Stack:** Vanilla HTML5, Vanilla CSS3, Vanilla JS (ES6+), `qrcode.min.js` (loaded via CDN with inline SVG fallback matrix generator).
 
 ## Global Constraints
-
-- **Zero Cost**: Must run on 100% free hosting platforms (GitHub Pages, Netlify, Cloudflare).
-- **No Build Tools Required**: Native browser execution without npm/webpack setup required to view.
-- **Mobile First**: Fast loading under 1s with low bandwidth consumption.
+- Single file deliverable: `index.html` (all CSS in `<style>`, all JS in `<script>`).
+- Total payload target: < 50KB excluding Google Fonts.
+- Touch target minimum: 44px x 44px for all interactive buttons and pills.
+- Accessibility: WCAG AA color contrast, semantic HTML, visible `:focus-visible` outlines.
+- Compatibility: Mobile-first, responsive from 320px screens to desktop, works raw or on static hosts.
 
 ---
 
-### Task 1: Create Data Structure & Core Design System
+### Task 1: Scaffolding, Top Comment Block, HTML Structure & CSS Design System
 
 **Files:**
-- Create: `js/menu-data.js`
-- Create: `css/styles.css`
+- Create: `index.html`
 
 **Interfaces:**
-- Produces: `window.menuData` containing restaurant metadata and structured menu items array.
-- Produces: CSS CSS variables, reset, layout utility classes, vibrant dark theme tokens.
+- Consumes: None
+- Produces: HTML structure, `<style>` block with Warm Bistro theme, `<script>` template with `RESTAURANT`, `MENU_CATEGORIES`, and `MENU_ITEMS` arrays.
 
-- [ ] **Step 1: Create `js/menu-data.js` with restaurant details and sample items**
+- [ ] **Step 1: Create `index.html` scaffold with header comment, CSS, and JS data structure**
 
-```javascript
-const menuData = {
-  restaurant: {
-    name: "BURGER & BITE",
-    tagline: "Flame-Grilled Perfection & Craft Shakes",
-    tableNotice: "Scan table code for instant ordering or staff assistance",
-    phone: "+1 (555) 019-2834",
-    whatsapp: "15550192834",
-    address: "42 Street Food Avenue, Downtown",
-    hours: "Mon-Sun: 11:00 AM - 11:00 PM"
-  },
-  categories: [
-    { id: "all", label: "All Items", icon: "✨" },
-    { id: "burgers", label: "Gourmet Burgers", icon: "🍔" },
-    { id: "sides", label: "Crispy Sides", icon: "🍟" },
-    { id: "drinks", label: "Craft Drinks & Shakes", icon: "🥤" },
-    { id: "desserts", label: "Desserts", icon: "🍦" }
-  ],
-  items: [
-    {
-      id: "b1",
-      categoryId: "burgers",
-      name: "Smoky Bacon & Cheddar Smash",
-      price: "$14.99",
-      description: "Double Angus smash patty, aged cheddar, crispy smoked bacon, caramelized onions, and signature house sauce on toasted brioche.",
-      badges: ["Popular 🔥", "Chef Special ⭐"],
-      image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80"
-    },
-    {
-      id: "b2",
-      categoryId: "burgers",
-      name: "Spicy Inferno Crunch",
-      price: "$13.50",
-      description: "Crispy fried chicken breast, habanero slaw, pickled jalapeños, and spicy chipotle aioli.",
-      badges: ["Spicy 🌶️"],
-      image: "https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?auto=format&fit=crop&w=600&q=80"
-    },
-    {
-      id: "b3",
-      categoryId: "burgers",
-      name: "Truffle Mushroom Plant Smash",
-      price: "$15.00",
-      description: "Beyond Meat patty, sautéed wild mushrooms, vegan truffle mayo, and dairy-free mozzarella.",
-      badges: ["Vegan 🌱"],
-      image: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80"
-    },
-    {
-      id: "s1",
-      categoryId: "sides",
-      name: "Loaded Truffle Fries",
-      price: "$6.99",
-      description: "Hand-cut potato fries tossed in parmesan, white truffle oil, and fresh parsley.",
-      badges: ["Popular 🔥"],
-      image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=600&q=80"
-    },
-    {
-      id: "d1",
-      categoryId: "drinks",
-      name: "Salted Caramel Monster Shake",
-      price: "$7.50",
-      description: "Thick vanilla bean gelato, homemade salted caramel, crushed pretzels, whipped cream.",
-      badges: ["Chef Special ⭐"],
-      image: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80"
-    }
-  ]
-};
+Write the base HTML file containing:
+1. Top instructions block with editing & 3-step deployment guidance.
+2. Complete CSS style block with Warm Bistro custom properties (`--bg-main: #FDFBF7`, `--accent-primary: #C85A32`, `--text-main: #1C1917`, etc.), mobile layout, search box, category pills bar, menu grid, card styling, badge tags, and QR modal container.
+3. Base HTML structure: `<header>`, `<nav class="sticky-nav">`, `<main id="menu-container">`, `<aside id="qr-section">`, `<footer>`.
+4. Editable JS data objects (`RESTAURANT`, `MENU_CATEGORIES`, `MENU_ITEMS`) tagged with `/* EDIT HERE */`.
 
-if (typeof module !== 'undefined') {
-  module.exports = menuData;
-}
-```
+- [ ] **Step 2: Verify HTML syntax & CSS properties in browser/node environment**
 
-- [ ] **Step 2: Create `css/styles.css` design system with CSS custom variables and vibrant theme styling**
-
-```css
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
-
-:root {
-  --bg-primary: #0b0f19;
-  --bg-secondary: #111827;
-  --card-bg: rgba(30, 41, 59, 0.65);
-  --card-border: rgba(255, 255, 255, 0.08);
-  --accent-orange: #f97316;
-  --accent-red: #ef4444;
-  --accent-amber: #f59e0b;
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --radius-lg: 18px;
-  --radius-md: 12px;
-  --font-heading: 'Outfit', sans-serif;
-  --font-body: 'Plus Jakarta Sans', sans-serif;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  background-color: var(--bg-primary);
-  color: var(--text-main);
-  font-family: var(--font-body);
-  line-height: 1.6;
-  min-height: 100vh;
-  padding-bottom: 80px;
-}
-
-.container {
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 16px;
-}
-```
+Verify that `index.html` opens cleanly in browser without console syntax errors.
 
 - [ ] **Step 3: Commit Task 1**
 
 ```bash
-git add js/menu-data.js css/styles.css
-git commit -m "feat: add menu data structure and core vibrant css design system"
+git add index.html
+git commit -m "feat: scaffold index.html with Warm Bistro design system and menu data schemas"
 ```
 
 ---
 
-### Task 2: Build Main Web Page HTML Structure & Layout
+### Task 2: Implement Dynamic Menu Rendering, Category Scrolling & Real-Time Search
 
 **Files:**
-- Create: `index.html`
-- Modify: `css/styles.css`
+- Modify: `index.html` (`<script>` section)
 
 **Interfaces:**
-- Displays Header hero, sticky search/filter bar, grid containers, footer, and hidden QR modal layout.
+- Consumes: `RESTAURANT`, `MENU_CATEGORIES`, `MENU_ITEMS` objects from Task 1.
+- Produces: Dynamic DOM population, scroll observer for sticky pills, search input filtering, Call/WhatsApp button listeners.
 
-- [ ] **Step 1: Build `index.html` structure**
+- [ ] **Step 1: Write Javascript functions for DOM rendering, filtering & scroll tracking**
 
-Include semantic markup, hero header, sticky search and category filter bar, container `#menu-grid`, footer, and `#qr-modal`. Include script tag loading `qrcode.min.js`, `js/menu-data.js`, and `js/app.js`.
+Add inside `<script>`:
+1. `renderHeader()`: Populates restaurant name, tagline, address, hours, notice, and sets up `tel:` & WhatsApp links.
+2. `renderCategoryPills()`: Renders `<button class="pill">` elements dynamically inside `.sticky-nav`.
+3. `renderMenu(items)`: Group items by `categoryId`, render section headings with item count badges, render individual item cards with price, badges, tags, and descriptions.
+4. `initSearch()`: Attach keyup/input handler to `#search-input` to dynamically filter items by name and description, toggling clear button and `#no-results` container.
+5. `initScrollObserver()`: Setup `IntersectionObserver` to automatically highlight active category pill as user scrolls through menu sections.
 
-- [ ] **Step 2: Add CSS grid, flex, and modal styles in `css/styles.css`**
+- [ ] **Step 2: Test rendering and search in browser**
 
-Add CSS for `.hero-header`, `.sticky-filter-bar`, `.category-pill`, `.menu-card`, `.badge`, `.qr-modal-overlay`, and `@media print` rule.
+Verify:
+- Clicking a category pill scrolls smoothly to that section.
+- Typing into search input filters items live and shows empty state on 0 matches.
+- Scrolling down highlights the active category pill.
 
 - [ ] **Step 3: Commit Task 2**
 
 ```bash
-git add index.html css/styles.css
-git commit -m "feat: create index.html structure and responsive layout components"
+git add index.html
+git commit -m "feat: add dynamic menu rendering, scroll observer, and real-time search logic"
 ```
 
 ---
 
-### Task 3: Implement Interactive JavaScript (App Logic & Filtering)
+### Task 3: Implement QR Code Generation, PNG Download Export & Final Polish
 
 **Files:**
-- Create: `js/app.js`
+- Modify: `index.html` (`<aside id="qr-section">` and `<script>` sections)
 
 **Interfaces:**
-- Consumes: `window.menuData`
-- Renders: Menu cards dynamically inside `#menu-grid`.
-- Handlers: Category click filter, search keyup filter, call/whatsapp click.
+- Consumes: `window.location.href`, Canvas element.
+- Produces: QR code rendering, "Download QR as PNG" button handler, public hosting notice.
 
-- [ ] **Step 1: Create `js/app.js` logic**
+- [ ] **Step 1: Integrate QR code generator & PNG download export logic**
 
-```javascript
-document.addEventListener('DOMContentLoaded', () => {
-  renderHeader();
-  renderCategories();
-  renderMenu('all', '');
-  setupEvents();
-});
-```
+Add inside `<script>`:
+1. CDN loader script for `qrcode.js` or inlined lightweight QR generator fallback.
+2. `generateQRCode()`: Generates QR encoding `window.location.href` into canvas/SVG element inside `#qr-container`.
+3. Displays current URL string inside `#qr-url-text`.
+4. `initDownloadQR()`: Wire `#btn-download-qr` button to export canvas to PNG image (`menu-qr.png`).
+5. Add explicit notice in UI and code comments about local `file://` testing vs hosted `https://` production links.
 
-Implement dynamic item filtering by text search and category ID.
+- [ ] **Step 2: Test QR generation and PNG download**
 
-- [ ] **Step 2: Commit Task 3**
+Verify:
+- QR code renders correctly.
+- Clicking "Download QR as PNG" downloads a valid PNG image file.
+- Total `index.html` file size is under 50KB.
+- Zero console errors or warnings.
 
-```bash
-git add js/app.js
-git commit -m "feat: add dynamic menu rendering, search, and category filter logic"
-```
-
----
-
-### Task 4: Add QRCode Generator & Print Studio Modal
-
-**Files:**
-- Create: `js/qrcode.min.js` (Lightweight QRCode library)
-- Modify: `index.html`
-- Modify: `js/app.js`
-- Modify: `css/styles.css`
-
-**Interfaces:**
-- Generates high resolution QR code canvas/SVG for any given URL.
-- Provides a printable Table Tent Card layout using CSS `@media print`.
-
-- [ ] **Step 1: Download/Write QRCode.js library in `js/qrcode.min.js`**
-- [ ] **Step 2: Connect QR Code Modal logic in `js/app.js`**
-- [ ] **Step 3: Add `@media print` rules in `css/styles.css` for 2-sided table tent printing**
-- [ ] **Step 4: Commit Task 4**
+- [ ] **Step 3: Commit Task 3**
 
 ```bash
-git add js/qrcode.min.js index.html js/app.js css/styles.css
-git commit -m "feat: integrate QR code generator and printable table tent studio"
-```
-
----
-
-### Task 5: Add Zero-Cost Deployment Guide & Final Verification
-
-**Files:**
-- Create: `README.md`
-
-- [ ] **Step 1: Create `README.md` with step-by-step deployment instructions for GitHub Pages and Netlify Drop**
-- [ ] **Step 2: Verify application locally in browser**
-- [ ] **Step 3: Final Commit**
-
-```bash
-git add README.md
-git commit -m "docs: add zero-cost deployment guide"
+git add index.html
+git commit -m "feat: complete QR code generation, PNG export, and final responsive menu polish"
 ```
