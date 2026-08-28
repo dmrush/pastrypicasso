@@ -1,87 +1,92 @@
-# Design Specification: Zero-Budget QR Code Menu Landing Page & Print Studio
+# Design Document: Single-File QR Restaurant Menu Landing Page
 
-**Date:** 2026-08-28  
-**Status:** Draft / Pending User Review  
-**Author:** Antigravity AI  
+## Overview
+A lightweight, dependency-free, single-file (`index.html`) restaurant menu landing page. Designed for instant loading when customers scan a QR code on a table or wall, even over weak mobile data networks (< 50KB payload).
 
----
+## Visual Identity: Warm Bistro
+- **Color Palette**:
+  - Background: Warm Cream (`#FDFBF7`)
+  - Primary / Accent: Terracotta (`#C85A32`) & Warm Amber (`#D97706`)
+  - Card Background: Pure White (`#FFFFFF`) with subtle soft shadows (`0 2px 8px rgba(0,0,0,0.05)`)
+  - Text Primary: Dark Charcoal (`#1C1917`)
+  - Text Secondary: Warm Muted Gray (`#78716C`)
+  - Focus Ring: High contrast Terracotta outline (`#C85A32`)
+- **Typography**: Google Font `Plus Jakarta Sans` loaded with `font-display: swap` + system fallback stack (`system-ui, -apple-system, sans-serif`).
+- **Readability**: WCAG AA contrast ratio compliant, optimized for outdoor daylight viewing on mobile devices.
 
-## 1. Executive Summary & Goals
+## Architecture & Structure
+All code is inlined into `c:\Users\hp\Documents\Projects\qrcode\index.html`:
+- Top comment block: Quick guide to editing menu/restaurant data & 3-step free static hosting instructions (GitHub Pages, Netlify, Cloudflare Pages).
+- Inline `<style>`: Mobile-first responsive CSS, CSS variables, utility classes, animations, min 44px tap targets.
+- Semantic HTML body:
+  - `<header>`: Restaurant name, tagline, address, hours, call/WhatsApp CTA buttons, search bar.
+  - `<nav class="sticky-nav">`: Horizontal scrolling category pills with active indicators.
+  - `<main>`: Grouped category sections (`<section id="category-id">`) with rendered menu item cards.
+  - `<aside id="qr-section">`: Self-generated QR code display, current URL text, "Download QR as PNG" button, local vs public URL note.
+  - `<footer>`: Restaurant footer and copyright.
+- Inline `<script>`:
+  - Menu & Restaurant Data Objects (clearly commented with `/* EDIT HERE */`).
+  - Menu rendering logic & dynamic section creation.
+  - Real-time search filtering logic.
+  - IntersectionObserver for sticky category pill highlighting on scroll.
+  - QR Code generation (`qrcode.min.js` CDN script with standalone canvas fallback).
+  - PNG export logic for QR code download.
 
-The goal of this project is to build a zero-budget, ultra-fast, visually captivating digital restaurant menu landing page accessible via QR code scan. 
+## Data Schemas (`EDIT HERE`)
+```javascript
+const RESTAURANT = {
+  name: "La Bella Trattoria",
+  tagline: "Authentic Italian Flavors & Handcrafted Pastas",
+  phone: "+15550192834",
+  whatsapp: "15550192834",
+  address: "123 Main Street, Downtown",
+  hours: "Mon-Sun: 11:30 AM - 10:00 PM",
+  notice: "✨ Chef's Special Menu Available Today",
+  currency: "$"
+};
 
-### Key Requirements:
-1. **Zero Budget**: No monthly fees, no subscription requirements, free hosting forever.
-2. **Instant Loading & Mobile First**: Optimized for smartphones scanning table QR codes in low-signal environments.
-3. **Vibrant & Bold Aesthetic**: Modern dark backdrop (`#0f172a`) with energetic gradients (`#f97316` flame orange, `#ef4444` red, `#eab308` yellow), Google Fonts (`Outfit` & `Plus Jakarta Sans`), and glassmorphic micro-interactions.
-4. **Interactive Customer Features**:
-   - Sticky category filter pills (Burgers, Mains, Drinks, Desserts, Specials).
-   - Instant search bar filtering menu items in real time.
-   - Dietary & highlight badges (`Popular 🔥`, `Spicy 🌶️`, `Vegan 🌱`, `Chef Special ⭐`).
-   - One-touch WhatsApp / Phone order & call button.
-5. **Built-in QR Code & Table Tent Studio**:
-   - Embedded QR code generator powered by QRCode.js.
-   - Integrated print stylesheet (`@media print`) that formats table-top tent cards with restaurant branding and scanned QR code for instant home/office printing.
+const MENU_CATEGORIES = [
+  { id: "starters", name: "Starters & Appetizers", icon: "🥗" },
+  { id: "mains", name: "Main Dishes", icon: "🍝" },
+  { id: "pizzas", name: "Wood-Fired Pizzas", icon: "🍕" },
+  { id: "desserts", name: "Desserts", icon: "🍰" },
+  { id: "drinks", name: "Beverages", icon: "🍷" }
+];
 
----
-
-## 2. Technical Architecture & File Structure
-
-The project is structured as a clean, dependency-free static web app:
-
+const MENU_ITEMS = [
+  {
+    id: "s1",
+    categoryId: "starters",
+    name: "Truffle Arancini",
+    description: "Crispy risotto balls filled with wild mushrooms and mozzarella, truffle aioli.",
+    price: 12.50,
+    badge: "Popular",
+    tags: ["Vegetarian"]
+  },
+  // ... more items
+];
 ```
-qrcode/
-├── index.html                # Main application structure, layout, & print modal
-├── css/
-│   └── styles.css            # Core design system, vibrant theme, responsiveness & @media print styles
-├── js/
-│   ├── menu-data.js          # Editable menu items, categories, & restaurant details
-│   ├── app.js                # Dynamic rendering, search, category filter, & modal logic
-│   └── qrcode.min.js         # Lightweight zero-dependency QR code generator library
-├── assets/
-│   └── images/               # Food images and placeholders
-└── README.md                 # Step-by-step zero-cost deployment guide (GitHub Pages, Netlify Drop, Cloudflare)
-```
 
----
+## Key Technical Features & Interactions
 
-## 3. UI/UX & Visual Design
+1. **Sticky Navigation & Active Scroll Tracking**:
+   - `position: sticky; top: 0` horizontal container with hide-scrollbar CSS.
+   - `IntersectionObserver` observing category `<section>` elements, updating active pill classes with smooth auto-scrolling into view within the pill container.
 
-### Color Palette
-- **Background**: Deep Dark (`#0b0f19`, `#111827`)
-- **Card Surface**: Glassmorphic Dark (`rgba(30, 41, 59, 0.7)` with `backdrop-filter: blur(12px)`)
-- **Primary Accent**: Flame Orange (`#f97316` to `#ea580c`)
-- **Secondary Accent**: Electric Amber (`#f59e0b`)
-- **Text Primary**: Crisp White (`#f8fafc`)
-- **Text Muted**: Warm Slate (`#94a3b8`)
+2. **Real-time Search Filter**:
+   - Filter menu items dynamically by name and description matching input term.
+   - Show `#no-results` empty state if search query returns 0 matches.
 
-### Key Components
-1. **Hero Header**: Restaurant branding logo/icon, tagline, table indicator badge, and direct call/order CTA buttons.
-2. **Search & Filter Bar**: Sticky sub-header with real-time text input filter and horizontal scrolling category tabs.
-3. **Menu Card Grid**: Grid layout presenting food image, title, price tag, tags/badges, and detailed description.
-4. **QR & Table Tent Generator Studio**:
-   - Accessible via Footer link or Admin button.
-   - Allows owner to type their published website URL.
-   - Instantly renders high-resolution QR code.
-   - Offers "Print Table Tent Cards" button which opens a print-formatted page with 2-sided table stand layout.
+3. **QR Code Generator & PNG Export**:
+   - Dependency-light QR generator script (or lightweight CDN loader for `qrcode.js`) rendering into a `<canvas>` element encoding `window.location.href`.
+   - "Download QR as PNG" button triggering `canvas.toDataURL("image/png")` download.
+   - Text display showing current URL and explicit comment warning about `file://` local preview vs hosted public URL (`https://...`).
 
----
+4. **Call / WhatsApp Action Buttons**:
+   - Wire `tel:${RESTAURANT.phone}` to direct phone dialing.
+   - Wire WhatsApp link `https://wa.me/${RESTAURANT.whatsapp}?text=...`.
 
-## 4. Zero-Cost Hosting & Deployment Strategy
-
-1. **GitHub Pages (Recommended)**:
-   - Free unlimited bandwidth for static sites.
-   - Custom URL format: `https://<username>.github.io/<repo-name>`
-2. **Netlify Drop**:
-   - Drag-and-drop instant publishing without git commands.
-3. **QR Code Printing**:
-   - Once deployed, open the Built-in QR Studio, paste the live URL, download/print table cards directly.
-
----
-
-## 5. Verification & Testing Plan
-
-1. **Mobile Responsiveness**: Test on iPhone, Android, and desktop viewports.
-2. **Performance**: Verify 100/100 Lighthouse performance score (instant load < 1s).
-3. **QR Code Functionality**: Verify generated QR code resolves correctly when scanned by real phone camera.
-4. **Print Formatting**: Test browser print preview (`Ctrl+P`) for table tent card alignment.
+## Verification & Self-Review
+- Checked for placeholders: None.
+- Consistency check: Single file requirement met; all components fit within one clean HTML file.
+- Outdoor contrast check: Text `#1C1917` on `#FDFBF7` / `#FFFFFF` yields contrast ratio > 12:1.
