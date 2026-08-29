@@ -1,73 +1,62 @@
 <!DOCTYPE html>
 <!--
 ==================================================================================
-  LA BELLA TRATTORIA - MOBILE QR RESTAURANT MENU
+  MOBILE QR RESTAURANT MENU - INTERACTIVE DIGITAL MENU
 ==================================================================================
 
   EDITING INSTRUCTIONS:
   ---------------------
-  1. RESTAURANT DATA & MENU ITEMS:
+  1. RESTAURANT DATA & MENU CATEGORIES:
      Scroll down to the <script> section at the bottom of this file.
      Look for the clearly marked /* EDIT HERE */ section.
      - Edit `RESTAURANT` object to update restaurant name, tagline, phone, address, etc.
-     - Edit `MENU_CATEGORIES` array to add/remove menu sections.
-     - Edit `MENU_ITEMS` array to update food/drink items, prices, tags & descriptions.
+     - Edit `MENU_CATEGORIES` array to adjust category names, icons, or image paths.
 
-  2. FREE STATIC DEPLOYMENT (3-STEP REMINDER):
-     - STEP 1: Upload this `index.html` file to a free static host:
-               • GitHub Pages (create repo -> upload index.html -> enable Pages in Settings)
-               • Netlify (drag and drop index.html at app.netlify.com/drop)
-               • Cloudflare Pages (connect repository or direct upload)
-     - STEP 2: Copy your newly published live website URL (e.g. https://your-restaurant.netlify.app).
+  2. FREE STATIC DEPLOYMENT:
+     - STEP 1: Upload this repository / index.html to GitHub Pages, Netlify, or Cloudflare Pages.
+     - STEP 2: Copy your newly published live website URL.
      - STEP 3: Print the QR code generated at the bottom of the page or export it using the
                "Download QR as PNG" button!
-
-  NOTE ON LOCAL TESTING:
-  ----------------------
-  When opening this file locally (file:///...), the QR code generator will encode the local
-  file path. Once hosted publicly on the web (https://...), the QR code will automatically
-  encode your live website URL for table customers!
 ==================================================================================
 -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>La Bella Trattoria — Menu</title>
-  <meta name="description" content="Explore our authentic Italian menu featuring artisanal pastas, wood-fired pizzas, starters, and handcrafted cocktails.">
+  <title>Our Menu — Digital Restaurant Menu</title>
+  <meta name="description" content="Explore our delicious menu featuring Grills, Pastries, Breakfast specials, and Shawarma.">
   
-  <!-- Preconnect to Google Fonts -->
+  <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     /* ==========================================================================
-       1. DESIGN SYSTEM & CUSTOM PROPERTIES (WARM BISTRO PALETTE)
+       1. DESIGN SYSTEM & CSS VARIABLES
        ========================================================================== */
     :root {
       --bg-main: #FDFBF7;
       --bg-surface: #FFFFFF;
       --bg-subtle: #F4EFE6;
-      --accent-primary: #C85A32; /* Terracotta */
+      --accent-primary: #C85A32; /* Terracotta Warm Accent */
       --accent-hover: #A84622;
       --accent-warm: #D97706;    /* Amber Gold */
-      --accent-green: #15803D;   /* Veg indicator */
       --text-main: #1C1917;      /* Dark Charcoal */
       --text-muted: #78716C;     /* Warm Gray */
       --text-light: #A8A29E;
       --border-color: #E7E0D3;
-      --shadow-sm: 0 2px 8px rgba(28, 25, 23, 0.05);
-      --shadow-md: 0 4px 16px rgba(28, 25, 23, 0.08);
-      --shadow-lg: 0 10px 25px rgba(28, 25, 23, 0.12);
+      --border-focus: rgba(200, 90, 50, 0.4);
+      --shadow-sm: 0 2px 8px rgba(28, 25, 23, 0.06);
+      --shadow-md: 0 6px 20px rgba(28, 25, 23, 0.09);
+      --shadow-lg: 0 12px 32px rgba(28, 25, 23, 0.14);
       --radius-sm: 8px;
-      --radius-md: 14px;
-      --radius-lg: 20px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
       --radius-pill: 9999px;
       --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      --transition-fast: 0.2s ease;
+      --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       --transition-normal: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      --focus-ring: 3px solid rgba(200, 90, 50, 0.4);
     }
 
     /* Reset & Base Styles */
@@ -91,30 +80,16 @@
       overflow-x: hidden;
     }
 
-    /* Accessibility Focus States */
     :focus-visible {
-      outline: var(--focus-ring);
+      outline: 3px solid var(--border-focus);
       outline-offset: 2px;
     }
 
-    /* Helper Utilities */
     .container {
       width: 100%;
       max-width: 768px;
       margin: 0 auto;
       padding: 0 16px;
-    }
-
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
     }
 
     /* ==========================================================================
@@ -123,7 +98,7 @@
     header {
       background: linear-gradient(180deg, #FFFFFF 0%, var(--bg-main) 100%);
       border-bottom: 1px solid var(--border-color);
-      padding: 24px 0 20px 0;
+      padding: 28px 0 22px 0;
       text-align: center;
     }
 
@@ -135,17 +110,17 @@
       color: #92400E;
       font-size: 0.85rem;
       font-weight: 600;
-      padding: 6px 14px;
+      padding: 6px 16px;
       border-radius: var(--radius-pill);
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       border: 1px solid #FDE68A;
     }
 
     .brand-title {
-      font-size: 2rem;
+      font-size: 2.1rem;
       font-weight: 800;
       color: var(--text-main);
-      letter-spacing: -0.02em;
+      letter-spacing: -0.025em;
       margin-bottom: 4px;
     }
 
@@ -153,7 +128,7 @@
       font-size: 0.95rem;
       color: var(--text-muted);
       font-weight: 500;
-      max-width: 440px;
+      max-width: 480px;
       margin: 0 auto 16px auto;
     }
 
@@ -161,7 +136,7 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 12px 20px;
+      gap: 10px 18px;
       font-size: 0.85rem;
       color: var(--text-muted);
       margin-bottom: 20px;
@@ -175,6 +150,7 @@
 
     .cta-button-group {
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
       gap: 12px;
     }
@@ -185,8 +161,8 @@
       justify-content: center;
       gap: 8px;
       min-height: 44px;
-      padding: 10px 20px;
-      font-size: 0.9rem;
+      padding: 10px 22px;
+      font-size: 0.92rem;
       font-weight: 700;
       border-radius: var(--radius-pill);
       border: none;
@@ -234,99 +210,50 @@
     }
 
     /* ==========================================================================
-       3. SEARCH & STICKY CATEGORY NAV
+       3. STICKY CATEGORY NAV
        ========================================================================== */
     .sticky-wrapper {
       position: sticky;
       top: 0;
       z-index: 100;
-      background-color: rgba(253, 251, 247, 0.95);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background-color: rgba(253, 251, 247, 0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-color);
       box-shadow: var(--shadow-sm);
       padding: 12px 0;
     }
 
-    .search-box {
-      position: relative;
-      margin-bottom: 12px;
-    }
-
-    .search-input {
-      width: 100%;
-      height: 48px;
-      padding: 0 44px 0 44px;
-      font-size: 0.95rem;
-      font-family: inherit;
-      color: var(--text-main);
-      background-color: var(--bg-surface);
-      border: 1.5px solid var(--border-color);
-      border-radius: var(--radius-pill);
-      box-shadow: var(--shadow-sm);
-      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
-    }
-
-    .search-input:focus {
-      border-color: var(--accent-primary);
-      box-shadow: 0 0 0 3px rgba(200, 90, 50, 0.15);
-      outline: none;
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-light);
-      pointer-events: none;
-    }
-
-    .clear-search {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 1.2rem;
-      cursor: pointer;
-      min-width: 32px;
-      min-height: 32px;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-    }
-
-    .clear-search:hover {
-      background-color: var(--bg-subtle);
-    }
-
     .category-scroll-container {
       display: flex;
-      gap: 8px;
+      gap: 10px;
       overflow-x: auto;
       scroll-behavior: smooth;
-      padding: 2px 4px;
+      padding: 4px 2px;
       -webkit-overflow-scrolling: touch;
-      scrollbar-width: none; /* Firefox */
+      scrollbar-width: none;
+      justify-content: flex-start;
+    }
+
+    @media (min-width: 540px) {
+      .category-scroll-container {
+        justify-content: center;
+      }
     }
 
     .category-scroll-container::-webkit-scrollbar {
-      display: none; /* Chrome/Safari */
+      display: none;
     }
 
     .category-pill {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       white-space: nowrap;
       min-height: 44px;
-      padding: 0 18px;
-      font-size: 0.88rem;
-      font-weight: 600;
+      padding: 0 20px;
+      font-size: 0.92rem;
+      font-weight: 700;
       font-family: inherit;
       color: var(--text-muted);
       background-color: var(--bg-surface);
@@ -350,174 +277,164 @@
     }
 
     /* ==========================================================================
-       4. MENU GRID & ITEM CARDS
+       4. STACKED MENU IMAGE SECTIONS
        ========================================================================== */
     main {
       padding-top: 24px;
     }
 
-    .menu-section {
-      scroll-margin-top: 130px; /* Offset for sticky nav */
-      margin-bottom: 36px;
+    .menu-image-section {
+      scroll-margin-top: 90px;
+      margin-bottom: 40px;
     }
 
     .section-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       padding-bottom: 8px;
       border-bottom: 2px solid var(--border-color);
     }
 
     .section-title {
-      font-size: 1.35rem;
+      font-size: 1.4rem;
       font-weight: 800;
       color: var(--text-main);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
-    .item-count-badge {
-      font-size: 0.75rem;
-      font-weight: 700;
-      background-color: var(--bg-subtle);
+    .section-subtitle {
+      font-size: 0.82rem;
       color: var(--text-muted);
-      padding: 2px 10px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background-color: var(--bg-subtle);
+      padding: 4px 10px;
       border-radius: var(--radius-pill);
     }
 
-    .menu-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
-
-    @media (min-width: 640px) {
-      .menu-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    .menu-card {
-      background-color: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 16px;
-      box-shadow: var(--shadow-sm);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+    .menu-image-card {
       position: relative;
-    }
-
-    .menu-card:hover {
-      transform: translateY(-2px);
+      background-color: var(--bg-surface);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
       box-shadow: var(--shadow-md);
-      border-color: rgba(200, 90, 50, 0.3);
+      transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
+      cursor: pointer;
     }
 
-    .card-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 12px;
-      margin-bottom: 6px;
+    .menu-image-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(200, 90, 50, 0.4);
     }
 
-    .item-name {
-      font-size: 1.05rem;
+    .menu-image-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      background-color: #FFFFFF;
+      transition: transform var(--transition-normal);
+    }
+
+    .tap-hint-overlay {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background-color: rgba(28, 25, 23, 0.82);
+      color: #FFFFFF;
+      font-size: 0.78rem;
       font-weight: 700;
-      color: var(--text-main);
-      line-height: 1.3;
-    }
-
-    .item-price {
-      font-size: 1.1rem;
-      font-weight: 800;
-      color: var(--accent-primary);
-      white-space: nowrap;
-    }
-
-    .item-desc {
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      line-height: 1.45;
-      margin-bottom: 12px;
-    }
-
-    .card-footer {
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
       display: flex;
-      flex-wrap: wrap;
       align-items: center;
       gap: 6px;
-      margin-top: auto;
-    }
-
-    .badge {
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: var(--radius-sm);
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-    }
-
-    .badge-primary {
-      background-color: #FEF3C7;
-      color: #B45309;
-    }
-
-    .badge-accent {
-      background-color: #FEE2E2;
-      color: #B91C1C;
-    }
-
-    .tag {
-      font-size: 0.72rem;
-      font-weight: 600;
-      background-color: var(--bg-subtle);
-      color: var(--text-muted);
-      padding: 3px 8px;
-      border-radius: var(--radius-sm);
-    }
-
-    .tag-veg {
-      background-color: #DCFCE7;
-      color: var(--accent-green);
-    }
-
-    /* Empty State */
-    .no-results {
-      text-align: center;
-      padding: 48px 16px;
-      background-color: var(--bg-surface);
-      border: 1px dashed var(--border-color);
-      border-radius: var(--radius-md);
-      display: none;
-    }
-
-    .no-results-icon {
-      font-size: 2.5rem;
-      margin-bottom: 12px;
-    }
-
-    .no-results-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 4px;
-    }
-
-    .no-results-desc {
-      font-size: 0.9rem;
-      color: var(--text-muted);
+      pointer-events: none;
+      box-shadow: var(--shadow-sm);
     }
 
     /* ==========================================================================
-       5. QR CODE SECTION & DOWNLOAD CARD
+       5. FULL-SCREEN LIGHTBOX MODAL
+       ========================================================================== */
+    .lightbox-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background-color: rgba(0, 0, 0, 0.9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .lightbox-modal.open {
+      display: flex;
+      opacity: 1;
+    }
+
+    .lightbox-content-wrapper {
+      position: relative;
+      max-width: 96vw;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .lightbox-caption {
+      color: #FFFFFF;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .lightbox-close-btn {
+      position: absolute;
+      top: -46px;
+      right: 0;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: #FFFFFF;
+      font-size: 1.5rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color var(--transition-fast);
+    }
+
+    .lightbox-close-btn:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    /* ==========================================================================
+       6. QR CODE SECTION
        ========================================================================== */
     .qr-card-section {
       margin-top: 48px;
@@ -530,7 +447,7 @@
     }
 
     .qr-card-title {
-      font-size: 1.25rem;
+      font-size: 1.3rem;
       font-weight: 800;
       color: var(--text-main);
       margin-bottom: 6px;
@@ -593,14 +510,14 @@
     }
 
     /* ==========================================================================
-       6. FOOTER
+       7. FOOTER
        ========================================================================== */
     footer {
-      margin-top: 40px;
+      margin-top: 48px;
       text-align: center;
-      font-size: 0.82rem;
+      font-size: 0.85rem;
       color: var(--text-light);
-      padding-top: 20px;
+      padding-top: 24px;
       border-top: 1px solid var(--border-color);
     }
   </style>
@@ -610,13 +527,13 @@
   <!-- RESTAURANT HEADER -->
   <header>
     <div class="container">
-      <div id="res-notice" class="notice-banner"></div>
-      <h1 id="res-name" class="brand-title">La Bella Trattoria</h1>
-      <p id="res-tagline" class="brand-tagline">Authentic Italian Flavors & Handcrafted Pastas</p>
+      <div id="res-notice" class="notice-banner">✨ Fresh & Delicious Specials Every Day</div>
+      <h1 id="res-name" class="brand-title">Our Restaurant Menu</h1>
+      <p id="res-tagline" class="brand-tagline">Explore our handcrafted Grills, Pastries, Breakfast, and Shawarma specials</p>
 
       <div class="info-bar">
         <span class="info-item">📍 <span id="res-address">123 Main Street, Downtown</span></span>
-        <span class="info-item">⏰ <span id="res-hours">Mon-Sun: 11:30 AM - 10:00 PM</span></span>
+        <span class="info-item">⏰ <span id="res-hours">Mon-Sun: 8:00 AM - 10:00 PM</span></span>
       </div>
 
       <div class="cta-button-group">
@@ -630,34 +547,19 @@
     </div>
   </header>
 
-  <!-- STICKY SEARCH & CATEGORY PILLS NAV -->
+  <!-- STICKY CATEGORY PILLS NAVIGATION -->
   <div class="sticky-wrapper">
     <div class="container">
-      <!-- Search Input -->
-      <div class="search-box">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="search-input" class="search-input" placeholder="Search starters, pasta, pizzas..." aria-label="Search menu items">
-        <button id="clear-search" class="clear-search" aria-label="Clear search">✕</button>
-      </div>
-
-      <!-- Horizontal Scrolling Category Pills -->
       <nav id="category-pills" class="category-scroll-container" aria-label="Menu categories">
-        <!-- Rendered dynamically via JS -->
+        <!-- Rendered dynamically via JS: Grills, Pastry, Breakfast, Shawama -->
       </nav>
     </div>
   </div>
 
-  <!-- MAIN MENU CONTAINER -->
+  <!-- MAIN STACKED MENU CONTAINER -->
   <main class="container">
-    <div id="menu-grid">
-      <!-- Category Sections & Cards rendered dynamically via JS -->
-    </div>
-
-    <!-- Empty Search Results State -->
-    <div id="no-results" class="no-results">
-      <div class="no-results-icon">🔍</div>
-      <h3 class="no-results-title">No items found</h3>
-      <p class="no-results-desc">Try searching for something else or clear your search term.</p>
+    <div id="menu-sections-container">
+      <!-- Image Sections rendered dynamically via JS -->
     </div>
 
     <!-- QR CODE GENERATOR SECTION -->
@@ -678,16 +580,25 @@
       </button>
 
       <div class="local-warning-box">
-        💡 <strong>Host to Activate QR:</strong> Currently viewing as local file. When deployed online (GitHub Pages/Netlify), this QR code will automatically point to your public website URL!
+        💡 <strong>Host to Activate QR:</strong> Currently viewing as local file. When deployed online (GitHub Pages/Netlify), this QR code will automatically point to your live public website!
       </div>
     </aside>
   </main>
 
   <!-- FOOTER -->
   <footer class="container">
-    <p>© <span id="year-text">2026</span> <span id="footer-res-name">La Bella Trattoria</span>. All rights reserved.</p>
+    <p>© <span id="year-text">2026</span> <span id="footer-res-name">Restaurant Menu</span>. All rights reserved.</p>
     <p style="margin-top: 4px;">Powered by Mobile Digital Menu Engine</p>
   </footer>
+
+  <!-- LIGHTBOX MODAL FOR TAP-TO-ZOOM / FULL-VIEW -->
+  <div id="lightbox-modal" class="lightbox-modal" role="dialog" aria-modal="true" aria-label="Expanded Menu View">
+    <div class="lightbox-content-wrapper">
+      <button id="lightbox-close" class="lightbox-close-btn" aria-label="Close full view">&times;</button>
+      <img id="lightbox-img" class="lightbox-img" src="" alt="Menu preview">
+      <div id="lightbox-caption" class="lightbox-caption"></div>
+    </div>
+  </div>
 
   <!-- LIGHTWEIGHT STANDALONE QR CODE GENERATOR SCRIPT -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -695,161 +606,63 @@
   <!-- APP ENGINE & DATA SCRIPT -->
   <script>
     /* ==========================================================================
-       EDIT HERE - RESTAURANT METADATA & MENU ITEMS CONFIGURATION
+       EDIT HERE - RESTAURANT METADATA & MENU CATEGORIES
        ========================================================================== */
     
     // 1. Restaurant Information
     const RESTAURANT = {
-      name: "La Bella Trattoria",
-      tagline: "Authentic Italian Flavors & Handcrafted Pastas",
+      name: "Pastry & Grill House",
+      tagline: "Delicious Grills, Fresh Pastries, Breakfast & Shawarma Specials",
       phone: "+15550192834",
       whatsapp: "15550192834",
       address: "123 Main Street, Downtown",
-      hours: "Mon-Sun: 11:30 AM - 10:00 PM",
-      notice: "✨ Chef's Special Pasta Available Today",
+      hours: "Mon-Sun: 8:00 AM - 10:00 PM",
+      notice: "✨ Freshly Prepared Daily — Dine-in & Takeaway Available",
       currency: "$"
     };
 
-    // 2. Menu Categories
+    // 2. Menu Categories & Image List
     const MENU_CATEGORIES = [
-      { id: "starters", name: "Starters", icon: "🥗" },
-      { id: "mains", name: "Main Pastas", icon: "🍝" },
-      { id: "pizzas", name: "Pizzas", icon: "🍕" },
-      { id: "desserts", name: "Desserts", icon: "🍰" },
-      { id: "drinks", name: "Drinks", icon: "🍷" }
-    ];
-
-    // 3. Menu Items List
-    const MENU_ITEMS = [
-      // Starters
       {
-        id: "s1",
-        categoryId: "starters",
-        name: "Truffle Arancini",
-        description: "Crispy risotto balls filled with wild mushrooms and mozzarella, served with truffle aioli.",
-        price: 12.50,
-        badge: "Chef Choice",
-        tags: ["Vegetarian"]
+        id: "grills",
+        name: "Grills",
+        icon: "🔥",
+        image: "images/Grills.jpeg",
+        description: "Sizzling BBQ, steak, kebabs, and grilled specialties"
       },
       {
-        id: "s2",
-        categoryId: "starters",
-        name: "Bruschetta al Pomodoro",
-        description: "Grilled sourdough topped with heirloom tomatoes, fresh basil, garlic, and extra virgin olive oil.",
-        price: 9.00,
-        tags: ["Vegan"]
+        id: "pastry",
+        name: "Pastry",
+        icon: "🥐",
+        image: "images/Pastry.jpeg",
+        description: "Freshly baked pastries, croissants, pies, and sweet treats"
       },
       {
-        id: "s3",
-        categoryId: "starters",
-        name: "Calamari Fritti",
-        description: "Lightly fried squid served with house-made spicy marinara and lemon wedges.",
-        price: 14.00
-      },
-
-      // Mains
-      {
-        id: "m1",
-        categoryId: "mains",
-        name: "Handcrafted Tagliatelle Bolognese",
-        description: "Slow-cooked Angus beef ragù, San Marzano tomatoes, and aged Parmigiano-Reggiano.",
-        price: 21.00,
-        badge: "Popular"
+        id: "breakfast",
+        name: "Breakfast",
+        icon: "🍳",
+        image: "images/Breakfast.jpeg",
+        description: "Morning platters, eggs, combos, and fresh breakfast favorites"
       },
       {
-        id: "m2",
-        categoryId: "mains",
-        name: "Rigatoni Cacio e Pepe",
-        description: "Classic Roman pasta with freshly cracked black pepper and Pecorino Romano cheese.",
-        price: 17.50,
-        tags: ["Vegetarian"]
-      },
-      {
-        id: "m3",
-        categoryId: "mains",
-        name: "Lobster Ravioli",
-        description: "Filled with Maine lobster ricotta in a delicate saffron cream sauce with cherry tomatoes.",
-        price: 26.00,
-        badge: "Signature"
-      },
-
-      // Pizzas
-      {
-        id: "p1",
-        categoryId: "pizzas",
-        name: "Margherita DOC",
-        description: "San Marzano sauce, fresh Mozzarella di Bufala, basil leaves, and extra virgin olive oil.",
-        price: 16.00,
-        tags: ["Vegetarian"]
-      },
-      {
-        id: "p2",
-        categoryId: "pizzas",
-        name: "Diavola",
-        description: "Spicy Calabrian salami, chili oil, San Marzano tomatoes, and fior di latte mozzarella.",
-        price: 18.50,
-        badge: "Spicy"
-      },
-      {
-        id: "p3",
-        categoryId: "pizzas",
-        name: "Tartufata",
-        description: "Black truffle cream, wild mushrooms, fresh mozzarella, and prosciutto di Parma.",
-        price: 22.00
-      },
-
-      // Desserts
-      {
-        id: "d1",
-        categoryId: "desserts",
-        name: "Classic Tiramisù",
-        description: "Espresso-soaked ladyfingers, whipped mascarpone cream, and dark cocoa powder.",
-        price: 8.50,
-        badge: "House Favorite"
-      },
-      {
-        id: "d2",
-        categoryId: "desserts",
-        name: "Panna Cotta",
-        description: "Vanilla bean panna cotta served with fresh berry compote and mint.",
-        price: 8.00,
-        tags: ["Gluten-Free"]
-      },
-
-      // Drinks
-      {
-        id: "dr1",
-        categoryId: "drinks",
-        name: "Aperol Spritz",
-        description: "Aperol, Prosecco DOC, club soda, and fresh orange slice.",
-        price: 11.00
-      },
-      {
-        id: "dr2",
-        categoryId: "drinks",
-        name: "Chianti Classico DOCG (Glass)",
-        description: "Full-bodied Tuscan red wine with notes of cherry and spice.",
-        price: 10.50
-      },
-      {
-        id: "dr3",
-        categoryId: "drinks",
-        name: "San Pellegrino Sparkling Water (750ml)",
-        description: "Crisp Italian mineral water.",
-        price: 5.50
+        id: "shawama",
+        name: "Shawama",
+        icon: "🌯",
+        image: "images/Shawama.jpeg",
+        description: "Juicy shawarma wraps, platters, and specialty sauces"
       }
     ];
 
     /* ==========================================================================
-       END EDIT HERE - ENGINE INITIALIZATION (DO NOT MODIFY LOGIC BELOW)
+       APP INITIALIZATION
        ========================================================================== */
 
     document.addEventListener("DOMContentLoaded", () => {
       initRestaurantInfo();
       renderCategoryPills();
-      renderMenu(MENU_ITEMS);
-      initSearch();
+      renderMenuSections();
       initScrollObserver();
+      initLightbox();
       initQRCode();
     });
 
@@ -878,7 +691,7 @@
 
       const btnWhatsapp = document.getElementById("btn-whatsapp");
       if (RESTAURANT.whatsapp) {
-        const message = encodeURIComponent(`Hello ${RESTAURANT.name}! I am at a table viewing your digital menu.`);
+        const message = encodeURIComponent(`Hello ${RESTAURANT.name}! I am viewing your digital menu.`);
         btnWhatsapp.href = `https://wa.me/${RESTAURANT.whatsapp}?text=${message}`;
       } else {
         btnWhatsapp.style.display = "none";
@@ -912,107 +725,32 @@
       });
     }
 
-    // Dynamic Menu Rendering grouped by categories
-    function renderMenu(itemsToRender) {
-      const menuGrid = document.getElementById("menu-grid");
-      const noResults = document.getElementById("no-results");
-      menuGrid.innerHTML = "";
+    // Renders stacked image sections
+    function renderMenuSections() {
+      const container = document.getElementById("menu-sections-container");
+      container.innerHTML = "";
 
-      if (itemsToRender.length === 0) {
-        noResults.style.display = "block";
-        return;
-      } else {
-        noResults.style.display = "none";
-      }
-
-      MENU_CATEGORIES.forEach(category => {
-        const categoryItems = itemsToRender.filter(item => item.categoryId === category.id);
-        
-        if (categoryItems.length === 0) return;
-
-        // Section wrapper
+      MENU_CATEGORIES.forEach(cat => {
         const section = document.createElement("section");
-        section.id = `section-${category.id}`;
-        section.className = "menu-section";
+        section.id = `section-${cat.id}`;
+        section.className = "menu-image-section";
 
-        // Section Header
-        const header = document.createElement("div");
-        header.className = "section-header";
-        header.innerHTML = `
-          <h2 class="section-title">
-            <span>${category.icon || "🍽️"}</span> ${category.name}
-          </h2>
-          <span class="item-count-badge">${categoryItems.length} items</span>
+        section.innerHTML = `
+          <div class="section-header">
+            <h2 class="section-title">
+              <span>${cat.icon || "🍽️"}</span> ${cat.name}
+            </h2>
+            <span class="section-subtitle">🔍 Tap image to zoom</span>
+          </div>
+          <div class="menu-image-card" data-img-src="${cat.image}" data-img-title="${cat.name} Menu">
+            <img src="${cat.image}" alt="${cat.name} Menu" loading="lazy">
+            <div class="tap-hint-overlay">
+              <span>🔍 Tap to expand</span>
+            </div>
+          </div>
         `;
-        section.appendChild(header);
 
-        // Grid for cards
-        const grid = document.createElement("div");
-        grid.className = "menu-grid";
-
-        categoryItems.forEach(item => {
-          const card = document.createElement("article");
-          card.className = "menu-card";
-
-          // Format badges & tags
-          const badgeHtml = item.badge 
-            ? `<span class="badge ${item.badge.toLowerCase().includes('chef') ? 'badge-accent' : 'badge-primary'}">${escapeHtml(item.badge)}</span>` 
-            : "";
-          
-          const tagsHtml = (item.tags || []).map(t => {
-            const isVeg = t.toLowerCase().includes('veg');
-            return `<span class="tag ${isVeg ? 'tag-veg' : ''}">${escapeHtml(t)}</span>`;
-          }).join(" ");
-
-          card.innerHTML = `
-            <div>
-              <div class="card-top">
-                <h3 class="item-name">${escapeHtml(item.name)}</h3>
-                <span class="item-price">${RESTAURANT.currency}${item.price.toFixed(2)}</span>
-              </div>
-              <p class="item-desc">${escapeHtml(item.description)}</p>
-            </div>
-            <div class="card-footer">
-              ${badgeHtml}
-              ${tagsHtml}
-            </div>
-          `;
-
-          grid.appendChild(card);
-        });
-
-        section.appendChild(grid);
-        menuGrid.appendChild(section);
-      });
-    }
-
-    // Real-Time Search Handler
-    function initSearch() {
-      const searchInput = document.getElementById("search-input");
-      const clearBtn = document.getElementById("clear-search");
-
-      searchInput.addEventListener("input", (e) => {
-        const query = e.target.value.trim().toLowerCase();
-        
-        if (query.length > 0) {
-          clearBtn.style.display = "flex";
-        } else {
-          clearBtn.style.display = "none";
-        }
-
-        const filtered = MENU_ITEMS.filter(item => {
-          return item.name.toLowerCase().includes(query) || 
-                 item.description.toLowerCase().includes(query);
-        });
-
-        renderMenu(filtered);
-      });
-
-      clearBtn.addEventListener("click", () => {
-        searchInput.value = "";
-        clearBtn.style.display = "none";
-        renderMenu(MENU_ITEMS);
-        searchInput.focus();
+        container.appendChild(section);
       });
     }
 
@@ -1020,7 +758,7 @@
     function initScrollObserver() {
       const observerOptions = {
         root: null,
-        rootMargin: "-140px 0px -40% 0px",
+        rootMargin: "-100px 0px -50% 0px",
         threshold: 0.1
       };
 
@@ -1033,20 +771,58 @@
             if (activePill) {
               document.querySelectorAll(".category-pill").forEach(p => p.classList.remove("active"));
               activePill.classList.add("active");
-              
-              // Scroll pill into view horizontally
               activePill.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
             }
           }
         });
       }, observerOptions);
 
-      // Delay observing until sections are rendered
       setTimeout(() => {
-        document.querySelectorAll(".menu-section").forEach(section => {
+        document.querySelectorAll(".menu-image-section").forEach(section => {
           observer.observe(section);
         });
       }, 100);
+    }
+
+    // Lightbox modal for zooming into menu images
+    function initLightbox() {
+      const modal = document.getElementById("lightbox-modal");
+      const modalImg = document.getElementById("lightbox-img");
+      const modalCaption = document.getElementById("lightbox-caption");
+      const closeBtn = document.getElementById("lightbox-close");
+
+      // Attach click events on menu image cards
+      document.addEventListener("click", (e) => {
+        const card = e.target.closest(".menu-image-card");
+        if (card) {
+          const imgSrc = card.getAttribute("data-img-src");
+          const imgTitle = card.getAttribute("data-img-title");
+          
+          modalImg.src = imgSrc;
+          modalCaption.textContent = imgTitle;
+          modal.classList.add("open");
+          document.body.style.overflow = "hidden";
+        }
+      });
+
+      function closeModal() {
+        modal.classList.remove("open");
+        document.body.style.overflow = "";
+        modalImg.src = "";
+      }
+
+      closeBtn.addEventListener("click", closeModal);
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          closeModal();
+        }
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal.classList.contains("open")) {
+          closeModal();
+        }
+      });
     }
 
     // QR Code Generator & Canvas Download Export
@@ -1056,7 +832,6 @@
       const holder = document.getElementById("qr-canvas-holder");
       holder.innerHTML = "";
 
-      // Fallback matrix renderer if QRCode library is blocked/offline
       if (typeof QRCode !== "undefined") {
         new QRCode(holder, {
           text: currentUrl,
@@ -1067,7 +842,6 @@
           correctLevel: QRCode.CorrectLevel.H
         });
       } else {
-        // Simple inline canvas fallback
         const canvas = document.createElement("canvas");
         canvas.width = 160;
         canvas.height = 160;
@@ -1104,20 +878,6 @@
         } else {
           alert("QR Code is generating... please try again in a moment.");
         }
-      });
-    }
-
-    // Helper HTML escape utility
-    function escapeHtml(str) {
-      if (!str) return "";
-      return str.replace(/[&<>"']/g, function(m) {
-        return {
-          '&': '&amp;',
-          '<': '&lt;',
-          '>': '&gt;',
-          '"': '&quot;',
-          "'": '&#039;'
-        }[m];
       });
     }
   </script>
