@@ -140,21 +140,11 @@
       box-shadow: 0 12px 30px rgba(225, 29, 116, 0.35);
     }
 
-    .info-bar {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px 18px;
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      margin-bottom: 20px;
-      font-weight: 500;
-    }
-
-    .info-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+    .menu-header-title {
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: var(--accent-primary);
+      margin: 8px 0 16px 0;
     }
 
     .cta-button-group {
@@ -484,10 +474,7 @@
         <img src="images/logo.jpg" alt="Pastry Picasso Logo" class="brand-logo">
       </div>
 
-      <div class="info-bar">
-        <span class="info-item">📍 <span id="res-address">123 Main Street, Downtown</span></span>
-        <span class="info-item">⏰ <span id="res-hours">Mon-Sun: 8:00 AM - 10:00 PM</span></span>
-      </div>
+      <h1 class="menu-header-title">Menu List</h1>
 
       <div class="cta-button-group">
         <a id="btn-whatsapp" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp">
@@ -566,8 +553,6 @@
       name: "Pastry Picasso",
       whatsapp: "2348144363688", // WhatsApp formatted number for 08144363688
       whatsappDisplay: "08144363688",
-      address: "123 Main Street, Downtown",
-      hours: "Mon-Sun: 8:00 AM - 10:00 PM",
       currency: "$"
     };
 
@@ -619,12 +604,6 @@
     function initRestaurantInfo() {
       const footerResName = document.getElementById("footer-res-name");
       if (footerResName) footerResName.textContent = RESTAURANT.name;
-
-      const resAddress = document.getElementById("res-address");
-      if (resAddress) resAddress.textContent = RESTAURANT.address;
-
-      const resHours = document.getElementById("res-hours");
-      if (resHours) resHours.textContent = RESTAURANT.hours;
 
       // WhatsApp CTA
       const btnWhatsapp = document.getElementById("btn-whatsapp");
