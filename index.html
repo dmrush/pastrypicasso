@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
 ==================================================================================
-  MOBILE QR RESTAURANT MENU - INTERACTIVE DIGITAL MENU
+  THE PASTRY PICASSO - MOBILE QR RESTAURANT MENU
 ==================================================================================
 
   EDITING INSTRUCTIONS:
@@ -9,7 +9,7 @@
   1. RESTAURANT DATA & MENU CATEGORIES:
      Scroll down to the <script> section at the bottom of this file.
      Look for the clearly marked /* EDIT HERE */ section.
-     - Edit `RESTAURANT` object to update restaurant name, tagline, phone, address, etc.
+     - Edit `RESTAURANT` object to update restaurant name, tagline, address, whatsapp, etc.
      - Edit `MENU_CATEGORIES` array to adjust category names, icons, or image paths.
 
   2. FREE STATIC DEPLOYMENT:
@@ -20,36 +20,45 @@
 ==================================================================================
 -->
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Our Menu — Digital Restaurant Menu</title>
-  <meta name="description" content="Explore our delicious menu featuring Grills, Pastries, Breakfast specials, and Shawarma.">
-  
+  <title>Pastry Picasso — Digital Menu</title>
+  <meta name="description"
+    content="Pastry Picasso - We paint with ingredients and you taste the art. Explore our menu featuring Grills, Pastries, Breakfast, and Shawarma.">
+
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,600;1,700&display=swap"
+    rel="stylesheet">
 
   <style>
     /* ==========================================================================
-       1. DESIGN SYSTEM & CSS VARIABLES
+       1. DESIGN SYSTEM & CSS VARIABLES (PASTRY PICASSO SIGNATURE PINK THEME)
        ========================================================================== */
     :root {
-      --bg-main: #FDFBF7;
+      --bg-main: #FFF7FA;
       --bg-surface: #FFFFFF;
-      --bg-subtle: #F4EFE6;
-      --accent-primary: #C85A32; /* Terracotta Warm Accent */
-      --accent-hover: #A84622;
-      --accent-warm: #D97706;    /* Amber Gold */
-      --text-main: #1C1917;      /* Dark Charcoal */
-      --text-muted: #78716C;     /* Warm Gray */
-      --text-light: #A8A29E;
-      --border-color: #E7E0D3;
-      --border-focus: rgba(200, 90, 50, 0.4);
-      --shadow-sm: 0 2px 8px rgba(28, 25, 23, 0.06);
-      --shadow-md: 0 6px 20px rgba(28, 25, 23, 0.09);
-      --shadow-lg: 0 12px 32px rgba(28, 25, 23, 0.14);
+      --bg-subtle: #FCE7F3;
+      --bg-card: #FFFFFF;
+      --accent-primary: #E11D74;
+      /* Signature Picasso Magenta Pink */
+      --accent-hover: #BE185D;
+      --accent-warm: #F43F5E;
+      --accent-soft: #FDF2F8;
+      --text-main: #1F171D;
+      /* Deep Plum / Charcoal */
+      --text-muted: #6E5C67;
+      /* Soft Mauve Slate */
+      --text-light: #9E8C96;
+      --border-color: #F8D3E4;
+      --border-focus: rgba(225, 29, 116, 0.45);
+      --shadow-sm: 0 2px 10px rgba(225, 29, 116, 0.06);
+      --shadow-md: 0 6px 24px rgba(225, 29, 116, 0.10);
+      --shadow-lg: 0 14px 36px rgba(225, 29, 116, 0.16);
       --radius-sm: 8px;
       --radius-md: 16px;
       --radius-lg: 24px;
@@ -60,7 +69,9 @@
     }
 
     /* Reset & Base Styles */
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
@@ -98,38 +109,35 @@
     header {
       background: linear-gradient(180deg, #FFFFFF 0%, var(--bg-main) 100%);
       border-bottom: 1px solid var(--border-color);
-      padding: 28px 0 22px 0;
+      padding: 36px 0 26px 0;
+      text-align: center;
+      position: relative;
+    }
+
+    .logo-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto 16px auto;
       text-align: center;
     }
 
-    .notice-banner {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background-color: #FEF3C7;
-      color: #92400E;
-      font-size: 0.85rem;
-      font-weight: 600;
-      padding: 6px 16px;
-      border-radius: var(--radius-pill);
-      margin-bottom: 14px;
-      border: 1px solid #FDE68A;
+    .brand-logo {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3.5px solid var(--accent-primary);
+      box-shadow: 0 8px 25px rgba(225, 29, 116, 0.28);
+      background-color: #FFFFFF;
+      transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+      display: block;
+      margin: 0 auto;
     }
 
-    .brand-title {
-      font-size: 2.1rem;
-      font-weight: 800;
-      color: var(--text-main);
-      letter-spacing: -0.025em;
-      margin-bottom: 4px;
-    }
-
-    .brand-tagline {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      font-weight: 500;
-      max-width: 480px;
-      margin: 0 auto 16px auto;
+    .brand-logo:hover {
+      transform: scale(1.04);
+      box-shadow: 0 12px 30px rgba(225, 29, 116, 0.35);
     }
 
     .info-bar {
@@ -137,9 +145,10 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 10px 18px;
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       color: var(--text-muted);
       margin-bottom: 20px;
+      font-weight: 500;
     }
 
     .info-item {
@@ -150,19 +159,20 @@
 
     .cta-button-group {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      min-height: 44px;
-      padding: 10px 22px;
-      font-size: 0.92rem;
+      gap: 10px;
+      min-height: 48px;
+      padding: 12px 32px;
+      font-size: 0.98rem;
       font-weight: 700;
       border-radius: var(--radius-pill);
       border: none;
@@ -176,37 +186,42 @@
       transform: scale(0.97);
     }
 
-    .btn-primary {
-      background-color: var(--accent-primary);
-      color: #FFFFFF;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .btn-primary:hover {
-      background-color: var(--accent-hover);
-      box-shadow: var(--shadow-md);
-    }
-
     .btn-whatsapp {
-      background-color: #25D366;
+      background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
       color: #FFFFFF;
-      box-shadow: var(--shadow-sm);
+      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
     }
 
     .btn-whatsapp:hover {
-      background-color: #20BA5A;
-      box-shadow: var(--shadow-md);
+      background: linear-gradient(135deg, #22BF5B 0%, #0E7468 100%);
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+      transform: translateY(-2px);
+    }
+
+    .order-prep-notice {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--accent-primary);
+      background-color: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      padding: 6px 18px;
+      border-radius: var(--radius-pill);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
     }
 
     .btn-secondary {
       background-color: var(--bg-surface);
-      color: var(--text-main);
+      color: var(--accent-primary);
       border: 1.5px solid var(--border-color);
       box-shadow: var(--shadow-sm);
     }
 
     .btn-secondary:hover {
       background-color: var(--bg-subtle);
+      border-color: var(--accent-primary);
     }
 
     /* ==========================================================================
@@ -216,7 +231,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background-color: rgba(253, 251, 247, 0.96);
+      background-color: rgba(255, 247, 250, 0.96);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-color);
@@ -267,13 +282,14 @@
     .category-pill:hover {
       border-color: var(--accent-primary);
       color: var(--accent-primary);
+      background-color: var(--bg-subtle);
     }
 
     .category-pill.active {
       background-color: var(--accent-primary);
       color: #FFFFFF;
       border-color: var(--accent-primary);
-      box-shadow: var(--shadow-sm);
+      box-shadow: 0 4px 12px rgba(225, 29, 116, 0.3);
     }
 
     /* ==========================================================================
@@ -308,13 +324,13 @@
 
     .section-subtitle {
       font-size: 0.82rem;
-      color: var(--text-muted);
-      font-weight: 600;
+      color: var(--accent-primary);
+      font-weight: 700;
       display: inline-flex;
       align-items: center;
       gap: 4px;
       background-color: var(--bg-subtle);
-      padding: 4px 10px;
+      padding: 4px 12px;
       border-radius: var(--radius-pill);
     }
 
@@ -330,9 +346,9 @@
     }
 
     .menu-image-card:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px);
       box-shadow: var(--shadow-lg);
-      border-color: rgba(200, 90, 50, 0.4);
+      border-color: var(--accent-primary);
     }
 
     .menu-image-card img {
@@ -348,11 +364,11 @@
       position: absolute;
       bottom: 12px;
       right: 12px;
-      background-color: rgba(28, 25, 23, 0.82);
+      background-color: rgba(31, 23, 29, 0.85);
       color: #FFFFFF;
       font-size: 0.78rem;
       font-weight: 700;
-      padding: 6px 12px;
+      padding: 6px 14px;
       border-radius: var(--radius-pill);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
@@ -370,7 +386,7 @@
       position: fixed;
       inset: 0;
       z-index: 999;
-      background-color: rgba(0, 0, 0, 0.9);
+      background-color: rgba(20, 10, 16, 0.92);
       display: none;
       align-items: center;
       justify-content: center;
@@ -405,7 +421,7 @@
 
     .lightbox-caption {
       color: #FFFFFF;
-      font-size: 1rem;
+      font-size: 1.05rem;
       font-weight: 700;
       margin-top: 10px;
       text-align: center;
@@ -415,8 +431,8 @@
       position: absolute;
       top: -46px;
       right: 0;
-      background: rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      background: rgba(225, 29, 116, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.5);
       color: #FFFFFF;
       font-size: 1.5rem;
       width: 40px;
@@ -430,83 +446,19 @@
     }
 
     .lightbox-close-btn:hover {
-      background: rgba(255, 255, 255, 0.4);
+      background: var(--accent-primary);
     }
 
     /* ==========================================================================
-       6. QR CODE SECTION
+       6. QR CODE SECTION (HIDDEN)
        ========================================================================== */
     .qr-card-section {
-      margin-top: 48px;
-      background-color: var(--bg-surface);
-      border: 1.5px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 28px 20px;
-      text-align: center;
-      box-shadow: var(--shadow-md);
-    }
-
-    .qr-card-title {
-      font-size: 1.3rem;
-      font-weight: 800;
-      color: var(--text-main);
-      margin-bottom: 6px;
-    }
-
-    .qr-card-subtitle {
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      margin-bottom: 20px;
-    }
-
-    .qr-display-container {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background-color: #FFFFFF;
-      padding: 20px;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border-color);
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 16px;
-    }
-
-    #qr-canvas-holder {
-      width: 180px;
-      height: 180px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #qr-canvas-holder canvas, #qr-canvas-holder img {
-      max-width: 100%;
-      height: auto;
-    }
-
-    .qr-url-text {
-      font-family: monospace;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      word-break: break-all;
-      background-color: var(--bg-subtle);
-      padding: 8px 12px;
-      border-radius: var(--radius-sm);
-      margin-bottom: 16px;
-      max-width: 320px;
-    }
-
-    .local-warning-box {
-      font-size: 0.8rem;
-      background-color: #EFF6FF;
-      color: #1E40AF;
-      border: 1px solid #BFDBFE;
-      padding: 10px 14px;
-      border-radius: var(--radius-sm);
-      text-align: left;
-      margin-top: 16px;
-      line-height: 1.4;
+      display: none !important;
+      visibility: hidden !important;
+      height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: hidden !important;
     }
 
     /* ==========================================================================
@@ -522,14 +474,15 @@
     }
   </style>
 </head>
+
 <body>
 
   <!-- RESTAURANT HEADER -->
   <header>
     <div class="container">
-      <div id="res-notice" class="notice-banner">✨ Fresh & Delicious Specials Every Day</div>
-      <h1 id="res-name" class="brand-title">Our Restaurant Menu</h1>
-      <p id="res-tagline" class="brand-tagline">Explore our handcrafted Grills, Pastries, Breakfast, and Shawarma specials</p>
+      <div class="logo-wrapper">
+        <img src="images/logo.jpg" alt="Pastry Picasso Logo" class="brand-logo">
+      </div>
 
       <div class="info-bar">
         <span class="info-item">📍 <span id="res-address">123 Main Street, Downtown</span></span>
@@ -537,12 +490,10 @@
       </div>
 
       <div class="cta-button-group">
-        <a id="btn-call" href="#" class="btn btn-primary">
-          📞 Call Restaurant
-        </a>
         <a id="btn-whatsapp" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp">
           💬 Order on WhatsApp
         </a>
+        <p class="order-prep-notice">⏱️ All orders take 20 to 30 minutes to be ready.</p>
       </div>
     </div>
   </header>
@@ -562,11 +513,11 @@
       <!-- Image Sections rendered dynamically via JS -->
     </div>
 
-    <!-- QR CODE GENERATOR SECTION -->
-    <aside id="qr-section" class="qr-card-section">
+    <!-- QR CODE GENERATOR SECTION (HIDDEN) -->
+    <aside id="qr-section" class="qr-card-section" style="display: none !important;">
       <h2 class="qr-card-title">📱 Table QR Code</h2>
       <p class="qr-card-subtitle">Scan to open this digital menu instantly on any smartphone.</p>
-      
+
       <div class="qr-display-container">
         <div id="qr-canvas-holder">
           <!-- Canvas / Image rendered via JS -->
@@ -580,15 +531,16 @@
       </button>
 
       <div class="local-warning-box">
-        💡 <strong>Host to Activate QR:</strong> Currently viewing as local file. When deployed online (GitHub Pages/Netlify), this QR code will automatically point to your live public website!
+        💡 <strong>Host to Activate QR:</strong> Currently viewing as local file. When deployed online (GitHub
+        Pages/Netlify), this QR code will automatically point to your live public website!
       </div>
     </aside>
   </main>
 
   <!-- FOOTER -->
   <footer class="container">
-    <p>© <span id="year-text">2026</span> <span id="footer-res-name">Restaurant Menu</span>. All rights reserved.</p>
-    <p style="margin-top: 4px;">Powered by Mobile Digital Menu Engine</p>
+    <p>© <span id="year-text">2026</span> <span id="footer-res-name">Pastry Picasso</span>. All rights reserved.</p>
+    <p style="margin-top: 4px;">Powered by DMrush</p>
   </footer>
 
   <!-- LIGHTBOX MODAL FOR TAP-TO-ZOOM / FULL-VIEW -->
@@ -608,16 +560,14 @@
     /* ==========================================================================
        EDIT HERE - RESTAURANT METADATA & MENU CATEGORIES
        ========================================================================== */
-    
+
     // 1. Restaurant Information
     const RESTAURANT = {
-      name: "Pastry & Grill House",
-      tagline: "Delicious Grills, Fresh Pastries, Breakfast & Shawarma Specials",
-      phone: "+15550192834",
-      whatsapp: "15550192834",
+      name: "Pastry Picasso",
+      whatsapp: "2348144363688", // WhatsApp formatted number for 08144363688
+      whatsappDisplay: "08144363688",
       address: "123 Main Street, Downtown",
       hours: "Mon-Sun: 8:00 AM - 10:00 PM",
-      notice: "✨ Freshly Prepared Daily — Dine-in & Takeaway Available",
       currency: "$"
     };
 
@@ -663,41 +613,30 @@
       renderMenuSections();
       initScrollObserver();
       initLightbox();
-      initQRCode();
     });
 
     // Populates Header & Footer text & CTAs
     function initRestaurantInfo() {
-      document.getElementById("res-name").textContent = RESTAURANT.name;
-      document.getElementById("footer-res-name").textContent = RESTAURANT.name;
-      document.getElementById("res-tagline").textContent = RESTAURANT.tagline;
-      document.getElementById("res-address").textContent = RESTAURANT.address;
-      document.getElementById("res-hours").textContent = RESTAURANT.hours;
-      
-      const noticeBanner = document.getElementById("res-notice");
-      if (RESTAURANT.notice) {
-        noticeBanner.textContent = RESTAURANT.notice;
-      } else {
-        noticeBanner.style.display = "none";
-      }
+      const footerResName = document.getElementById("footer-res-name");
+      if (footerResName) footerResName.textContent = RESTAURANT.name;
 
-      // CTAs
-      const btnCall = document.getElementById("btn-call");
-      if (RESTAURANT.phone) {
-        btnCall.href = `tel:${RESTAURANT.phone}`;
-      } else {
-        btnCall.style.display = "none";
-      }
+      const resAddress = document.getElementById("res-address");
+      if (resAddress) resAddress.textContent = RESTAURANT.address;
 
+      const resHours = document.getElementById("res-hours");
+      if (resHours) resHours.textContent = RESTAURANT.hours;
+
+      // WhatsApp CTA
       const btnWhatsapp = document.getElementById("btn-whatsapp");
-      if (RESTAURANT.whatsapp) {
-        const message = encodeURIComponent(`Hello ${RESTAURANT.name}! I am viewing your digital menu.`);
+      if (btnWhatsapp && RESTAURANT.whatsapp) {
+        const message = encodeURIComponent(`Hello ${RESTAURANT.name}! I am viewing your digital menu and would like to place an order.`);
         btnWhatsapp.href = `https://wa.me/${RESTAURANT.whatsapp}?text=${message}`;
-      } else {
+      } else if (btnWhatsapp) {
         btnWhatsapp.style.display = "none";
       }
 
-      document.getElementById("year-text").textContent = new Date().getFullYear();
+      const yearText = document.getElementById("year-text");
+      if (yearText) yearText.textContent = new Date().getFullYear();
     }
 
     // Renders sticky navigation category pills
@@ -710,11 +649,11 @@
         button.className = `category-pill ${index === 0 ? "active" : ""}`;
         button.setAttribute("data-category", cat.id);
         button.innerHTML = `<span>${cat.icon || "🍽️"}</span> ${cat.name}`;
-        
+
         button.addEventListener("click", () => {
           document.querySelectorAll(".category-pill").forEach(p => p.classList.remove("active"));
           button.classList.add("active");
-          
+
           const section = document.getElementById(`section-${cat.id}`);
           if (section) {
             section.scrollIntoView({ behavior: "smooth" });
@@ -767,7 +706,7 @@
           if (entry.isIntersecting) {
             const categoryId = entry.target.id.replace("section-", "");
             const activePill = document.querySelector(`.category-pill[data-category="${categoryId}"]`);
-            
+
             if (activePill) {
               document.querySelectorAll(".category-pill").forEach(p => p.classList.remove("active"));
               activePill.classList.add("active");
@@ -797,7 +736,7 @@
         if (card) {
           const imgSrc = card.getAttribute("data-img-src");
           const imgTitle = card.getAttribute("data-img-title");
-          
+
           modalImg.src = imgSrc;
           modalCaption.textContent = imgTitle;
           modal.classList.add("open");
@@ -824,62 +763,7 @@
         }
       });
     }
-
-    // QR Code Generator & Canvas Download Export
-    function initQRCode() {
-      const currentUrl = window.location.href;
-      document.getElementById("qr-url-text").textContent = currentUrl;
-      const holder = document.getElementById("qr-canvas-holder");
-      holder.innerHTML = "";
-
-      if (typeof QRCode !== "undefined") {
-        new QRCode(holder, {
-          text: currentUrl,
-          width: 160,
-          height: 160,
-          colorDark: "#1C1917",
-          colorLight: "#FFFFFF",
-          correctLevel: QRCode.CorrectLevel.H
-        });
-      } else {
-        const canvas = document.createElement("canvas");
-        canvas.width = 160;
-        canvas.height = 160;
-        const ctx = canvas.getContext("2d");
-        ctx.fillStyle = "#FFFFFF";
-        ctx.fillRect(0, 0, 160, 160);
-        ctx.fillStyle = "#1C1917";
-        ctx.font = "14px sans-serif";
-        ctx.textAlign = "center";
-        ctx.fillText("QR Code", 80, 70);
-        ctx.fillText("(Host online to view)", 80, 95);
-        holder.appendChild(canvas);
-      }
-
-      // Download QR as PNG Button
-      document.getElementById("btn-download-qr").addEventListener("click", () => {
-        const canvas = holder.querySelector("canvas");
-        const img = holder.querySelector("img");
-
-        let dataUrl = "";
-        if (canvas) {
-          dataUrl = canvas.toDataURL("image/png");
-        } else if (img && img.src) {
-          dataUrl = img.src;
-        }
-
-        if (dataUrl) {
-          const a = document.createElement("a");
-          a.href = dataUrl;
-          a.download = `${RESTAURANT.name.toLowerCase().replace(/[^a-z0-9]/g, "-")}-qr.png`;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-        } else {
-          alert("QR Code is generating... please try again in a moment.");
-        }
-      });
-    }
   </script>
 </body>
+
 </html>
