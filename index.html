@@ -26,7 +26,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pastry Picasso — Digital Menu</title>
   <meta name="description"
-    content="Pastry Picasso - We paint with ingredients and you taste the art. Explore our menu featuring Grills, Pastries, Breakfast, and Shawarma.">
+    content="Pastry Picasso - We paint with ingredients and you taste the art. Explore our menu featuring Breakfast, Fried Small Chops, Shawarma and Loaded Fries, Drinks, Burger, and Grills.">
 
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -240,7 +240,7 @@
       justify-content: flex-start;
     }
 
-    @media (min-width: 540px) {
+    @media (min-width: 860px) {
       .category-scroll-container {
         justify-content: center;
       }
@@ -489,7 +489,7 @@
   <div class="sticky-wrapper">
     <div class="container">
       <nav id="category-pills" class="category-scroll-container" aria-label="Menu categories">
-        <!-- Rendered dynamically via JS: Grills, Small chops, Breakfast, Shawama -->
+        <!-- Rendered dynamically via JS: Breakfast, Fried Small Chops, Shawarma and Loaded Fries, Drinks, Burger, Grills -->
       </nav>
     </div>
   </div>
@@ -559,32 +559,46 @@
     // 2. Menu Categories & Image List
     const MENU_CATEGORIES = [
       {
+        id: "breakfast",
+        name: "Breakfast",
+        icon: "🥞",
+        image: "images/Breakfast.jpeg",
+        description: "Morning platters, pancakes, waffles, combos, and fresh breakfast favorites"
+      },
+      {
+        id: "fried-small-chops",
+        name: "Fried Small Chops",
+        icon: "🥟",
+        image: "images/Fried Small Chops.jpeg",
+        description: "Crispy samosas, spring rolls, puff puff, plantain mosa, and party platters"
+      },
+      {
+        id: "shawarma-and-loaded-fries",
+        name: "Shawarma and Loaded Fries",
+        icon: "🌯",
+        image: "images/Shawarma and Loaded Fries.jpeg",
+        description: "Juicy chicken & beef shawarma wraps, jumbo loaded fries, and cheesy specials"
+      },
+      {
+        id: "drinks",
+        name: "Drinks",
+        icon: "🍹",
+        image: "images/Drinks.jpeg",
+        description: "Bubble tea, milkshakes, cocktails, mocktails, and fresh yogurt drinks"
+      },
+      {
+        id: "burger",
+        name: "Burger",
+        icon: "🍔",
+        image: "images/Burger.jpeg",
+        description: "Classic Picasso burgers, deluxe burgers, waffle burgers, and combos"
+      },
+      {
         id: "grills",
         name: "Grills",
         icon: "🔥",
         image: "images/Grills.jpeg",
-        description: "Sizzling BBQ, steak, kebabs, and grilled specialties"
-      },
-      {
-        id: "pastry",
-        name: "Small Chops",
-        icon: "",
-        image: "images/pastry.jpeg",
-        description: "Freshly baked pastries, croissants, pies, and sweet treats"
-      },
-      {
-        id: "breakfast",
-        name: "Breakfast",
-        icon: "🍳",
-        image: "images/Breakfast.jpeg",
-        description: "Morning platters, eggs, combos, and fresh breakfast favorites"
-      },
-      {
-        id: "shawama",
-        name: "Shawarma and Loaded Fries",
-        icon: "🌯",
-        image: "images/Shawama.jpeg",
-        description: "Juicy shawarma wraps, platters, and specialty sauces"
+        description: "Sizzling BBQ chicken, turkey, grilled croaker fish, and grill platters"
       }
     ];
 
