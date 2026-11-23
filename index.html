@@ -25,8 +25,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pastry Picasso — Digital Menu</title>
-  <meta name="description"
-  content="Pastry Picasso - We paint with ingredients and you taste the art. Explore our menu featuring Breakfast,
+  <link rel="canonical" href="https://pastrypicasso.pages.dev/">
+  <meta property="og:url" content="https://pastrypicasso.pages.dev/">
+  <meta name="description" content="Pastry Picasso - We paint with ingredients and you taste the art. Explore our menu featuring Breakfast,
   Banana Bread & Pastries, Loaded Fries, Shawarma & Breadwarma, Small Chops, and Drinks.">
 
   <!-- Google Fonts: Plus Jakarta Sans -->
@@ -441,7 +442,7 @@
     }
 
     /* ==========================================================================
-       6. QR CODE SECTION (HIDDEN)
+       6. QR CODE SECTION (HIDDEN BY DEFAULT; OPEN WITH ?qr=1 TO VIEW/DOWNLOAD)
        ========================================================================== */
     .qr-card-section {
       display: none !important;
@@ -450,6 +451,37 @@
       margin: 0 !important;
       padding: 0 !important;
       overflow: hidden !important;
+    }
+
+    .qr-card-section.visible {
+      display: flex !important;
+      visibility: visible !important;
+      height: auto !important;
+      margin: 32px auto 0 auto !important;
+      padding: 28px 20px !important;
+      overflow: visible !important;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 12px;
+      background-color: var(--bg-surface);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
+    }
+
+    .qr-display-container {
+      padding: 14px;
+      background-color: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+    }
+
+    .qr-url-text {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--accent-primary);
+      word-break: break-all;
     }
 
     /* ==========================================================================
@@ -501,28 +533,23 @@
       <!-- Image Sections rendered dynamically via JS -->
     </div>
 
-    <!-- QR CODE GENERATOR SECTION (HIDDEN) -->
-    <aside id="qr-section" class="qr-card-section" style="display: none !important;">
-      <h2 class="qr-card-title">📱 Table QR Code</h2>
-      <p class="qr-card-subtitle">Scan to open this digital menu instantly on any smartphone.</p>
+      <!-- QR CODE GENERATOR SECTION (HIDDEN BY DEFAULT; USE ?qr=1 TO DISPLAY) -->
+      <aside id="qr-section" class="qr-card-section">
+        <h2 class="qr-card-title">📱 Table QR Code</h2>
+        <p class="qr-card-subtitle">Scan to open this digital menu instantly on any smartphone.</p>
 
-      <div class="qr-display-container">
-        <div id="qr-canvas-holder">
-          <!-- Canvas / Image rendered via JS -->
+        <div class="qr-display-container">
+          <div id="qr-canvas-holder">
+            <!-- Canvas / Image rendered via JS -->
+          </div>
         </div>
-      </div>
 
-      <div id="qr-url-text" class="qr-url-text">Loading URL...</div>
+        <div id="qr-url-text" class="qr-url-text">https://pastrypicasso.pages.dev/</div>
 
-      <button id="btn-download-qr" class="btn btn-secondary">
-        ⬇️ Download QR as PNG
-      </button>
-
-      <div class="local-warning-box">
-        💡 <strong>Host to Activate QR:</strong> Currently viewing as local file. When deployed online (GitHub
-        Pages/Netlify), this QR code will automatically point to your live public website!
-      </div>
-    </aside>
+        <button id="btn-download-qr" class="btn btn-secondary">
+          ⬇️ Download QR as PNG
+        </button>
+      </aside>
   </main>
 
   <!-- FOOTER -->
@@ -552,6 +579,7 @@
     // 1. Restaurant Information
     const RESTAURANT = {
       name: "Pastry Picasso",
+      url: "https://pastrypicasso.pages.dev/",
       whatsapp: "2348144363688", // WhatsApp formatted number for 08144363688
       whatsappDisplay: "08144363688",
       currency: "$"
@@ -613,6 +641,7 @@
       renderMenuSections();
       initScrollObserver();
       initLightbox();
+      initQRCode();
     });
 
     // Populates Header & Footer text & CTAs
@@ -756,6 +785,57 @@
           closeModal();
         }
       });
+    }
+
+    // QR Code Generator & PNG Download Export (always links to RESTAURANT.url)
+    function initQRCode() {
+      const targetUrl = RESTAURANT.url || window.location.href;
+      const qrSection = document.getElementById("qr-section");
+      const urlText = document.getElementById("qr-url-text");
+      const holder = document.getElementById("qr-canvas-holder");
+      const downloadBtn = document.getElementById("btn-download-qr");
+
+      if (!holder) return;
+
+      if (urlText) {
+        urlText.textContent = targetUrl;
+      }
+
+      if (qrSection && new URLSearchParams(window.location.search).get("qr") === "1") {
+        qrSection.classList.add("visible");
+      }
+
+      holder.innerHTML = "";
+
+      if (typeof QRCode !== "undefined") {
+        new QRCode(holder, {
+          text: targetUrl,
+          width: 200,
+          height: 200,
+          colorDark: "#1F171D",
+          colorLight: "#FFFFFF",
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      }
+
+      if (downloadBtn) {
+        downloadBtn.addEventListener("click", () => {
+          const canvas = holder.querySelector("canvas");
+          const img = holder.querySelector("img");
+          const dataUrl = canvas ? canvas.toDataURL("image/png") : (img && img.src ? img.src : "");
+
+          if (dataUrl) {
+            const a = document.createElement("a");
+            a.href = dataUrl;
+            a.download = `${RESTAURANT.name.toLowerCase().replace(/[^a-z0-9]/g, "-")}-qr.png`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          } else {
+            alert("QR Code is generating... please try again in a moment.");
+          }
+        });
+      }
     }
   </script>
 </body>
