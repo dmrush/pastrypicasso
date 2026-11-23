@@ -27,20 +27,8 @@
   <title>Pastry Picasso — Digital Menu</title>
   <link rel="canonical" href="https://pastrypicasso.pages.dev/">
   <meta property="og:url" content="https://pastrypicasso.pages.dev/">
-  <script>
-    (function () {
-      if (window.location.hostname === "pastrypicasso.vercel.app") {
-        window.location.replace(
-          "https://pastrypicasso.pages.dev" +
-          window.location.pathname +
-          window.location.search +
-          window.location.hash
-        );
-      }
-    })();
-  </script>
   <meta name="description" content="Pastry Picasso - We paint with ingredients and you taste the art. Explore our menu featuring Breakfast,
-  Banana Bread & Pastries, Loaded Fries, Shawarma & Breadwarma, Small Chops, and Drinks.">
+  Banana Bread & Pastries, Loaded Fries, Shawarma & Breadwarma, Small Chops, Burger, and Drinks.">
 
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -454,7 +442,7 @@
     }
 
     /* ==========================================================================
-       6. QR CODE SECTION (HIDDEN BY DEFAULT; OPEN WITH ?qr=1 TO VIEW/DOWNLOAD)
+       6. QR CODE SECTION (SHOWN LOCALLY ONLY; HIDDEN ON HOSTED SITE)
        ========================================================================== */
     .qr-card-section {
       display: none !important;
@@ -534,7 +522,7 @@
   <div class="sticky-wrapper">
     <div class="container">
       <nav id="category-pills" class="category-scroll-container" aria-label="Menu categories">
-        <!-- Rendered dynamically via JS: Breakfast, Banana Bread & Pastries, Loaded Fries, Shawarma & Breadwarma, Small Chops, Drinks -->
+        <!-- Rendered dynamically via JS: Breakfast, Banana Bread & Pastries, Loaded Fries, Shawarma & Breadwarma, Small Chops, Burger, Drinks -->
       </nav>
     </div>
   </div>
@@ -545,7 +533,7 @@
       <!-- Image Sections rendered dynamically via JS -->
     </div>
 
-      <!-- QR CODE GENERATOR SECTION (HIDDEN BY DEFAULT; USE ?qr=1 TO DISPLAY) -->
+      <!-- QR CODE GENERATOR SECTION (SHOWN LOCALLY ONLY; HIDDEN ON HOSTED SITE) -->
       <aside id="qr-section" class="qr-card-section">
         <h2 class="qr-card-title">📱 Table QR Code</h2>
         <p class="qr-card-subtitle">Scan to open this digital menu instantly on any smartphone.</p>
@@ -592,7 +580,6 @@
     const RESTAURANT = {
       name: "Pastry Picasso",
       url: "https://pastrypicasso.pages.dev/",
-      qrUrl: "https://pastrypicasso.vercel.app/", // Kept unchanged so existing printed QR codes stay identical and redirect to url
       whatsapp: "2348144363688", // WhatsApp formatted number for 08144363688
       whatsappDisplay: "08144363688",
       currency: "$"
@@ -634,6 +621,13 @@
         icon: "🥟",
         image: "images/Small Chops.jpeg",
         description: "Single party packs, platters, samosas, spring rolls, puff puff, corn dogs, and extras"
+      },
+      {
+        id: "burger",
+        name: "Burger",
+        icon: "🍔",
+        image: "images/Burger.jpeg",
+        description: "Classic Picasso burgers, deluxe burgers, waffle burgers, double deckers, combos, and extras"
       },
       {
         id: "drinks",
@@ -800,30 +794,35 @@
       });
     }
 
-    // QR Code Generator & PNG Download Export (keeps existing QR code identical while redirecting to RESTAURANT.url)
+    // QR Code Generator & PNG Download Export (shown locally only; hidden on hosted site)
     function initQRCode() {
-      const qrTargetUrl = RESTAURANT.qrUrl || RESTAURANT.url || window.location.href;
-      const displayUrl = RESTAURANT.url || qrTargetUrl;
+      const isLocal =
+        window.location.protocol === "file:" ||
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1" ||
+        window.location.hostname === "::1";
+
       const qrSection = document.getElementById("qr-section");
+      if (!isLocal || !qrSection) return;
+
+      const targetUrl = RESTAURANT.url || window.location.href;
       const urlText = document.getElementById("qr-url-text");
       const holder = document.getElementById("qr-canvas-holder");
       const downloadBtn = document.getElementById("btn-download-qr");
 
       if (!holder) return;
 
-      if (urlText) {
-        urlText.textContent = displayUrl;
-      }
+      qrSection.classList.add("visible");
 
-      if (qrSection && new URLSearchParams(window.location.search).get("qr") === "1") {
-        qrSection.classList.add("visible");
+      if (urlText) {
+        urlText.textContent = targetUrl;
       }
 
       holder.innerHTML = "";
 
       if (typeof QRCode !== "undefined") {
         new QRCode(holder, {
-          text: qrTargetUrl,
+          text: targetUrl,
           width: 200,
           height: 200,
           colorDark: "#1F171D",
