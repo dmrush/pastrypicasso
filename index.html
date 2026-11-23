@@ -27,6 +27,16 @@
   <title>Pastry Picasso — Digital Menu</title>
   <link rel="canonical" href="https://pastrypicasso.pages.dev/">
   <meta property="og:url" content="https://pastrypicasso.pages.dev/">
+  <script>
+    (function () {
+      const targetHost = "pastrypicasso.pages.dev";
+      const isWeb = window.location.protocol === "http:" || window.location.protocol === "https:";
+      const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+      if (isWeb && !isLocal && window.location.hostname !== targetHost) {
+        window.location.replace("https://" + targetHost + "/" + window.location.search + window.location.hash);
+      }
+    })();
+  </script>
   <meta name="description" content="Pastry Picasso - We paint with ingredients and you taste the art. Explore our menu featuring Breakfast,
   Banana Bread & Pastries, Loaded Fries, Shawarma & Breadwarma, Small Chops, and Drinks.">
 
